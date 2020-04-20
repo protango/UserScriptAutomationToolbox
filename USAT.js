@@ -8,7 +8,7 @@ function qs(selector) {
 
 async function waitForElement(selector, timeout, period) {
 	var promise = new Promise(function(resolve, reject) {
-		let period = period || 200;
+		period = period || 200;
 		let loopIdx = 0;
 		let checkElem = setInterval(function() {
 			let elem = qs(selector);
