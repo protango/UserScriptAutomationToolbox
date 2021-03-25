@@ -1,28 +1,18 @@
-function qsa(selector) {
-	return document.querySelectorAll(selector);
+async function waitFor(condition, maxTime = 5000) {
+	let tryCount = 0;
+	let conditionVal;
+	while(!(conditionVal = condition())) {
+		tryCount++;
+		if (tryCount * 100 >= maxTime) throw new Error("Condition was not true in " + maxTime + "ms");
+		await new Promise(r => setTimeout(r, 100));
+	}
+	return conditionVal;
 }
 
-function qs(selector) {
-	return document.querySelector(selector);
-}
-
-async function waitForElement(selector, timeout, period) {
-	var promise = new Promise(function(resolve, reject) {
-		period = period || 200;
-		let loopIdx = 0;
-		let checkElem = setInterval(function() {
-			let elem = qs(selector);
-			if (elem != null) {
-				resolve(elem);
-				clearInterval(checkElem);
-			} else {
-				if (timeout && (period * loopIdx >= timeout)) {
-					reject();
-					clearInterval(checkElem);
-				}
-				loopIdx++;
-			}
-		}, period);
-	});
-	return promise;
+async function waitForElement(selector, timeout = 5000) {
+	try {
+		return await waitFor(() => document.querySelector(selector), timeout)
+	} catch {
+		throw new Error(`Failed to find element with selector "${selector}" within ${timeout}ms`)
+	}
 }
