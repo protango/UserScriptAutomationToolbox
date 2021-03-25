@@ -1,4 +1,4 @@
-async function waitFor(condition, maxTime = 5000) {
+export async function waitFor(condition, maxTime = 5000) {
 	let tryCount = 0;
 	let conditionVal;
 	while(!(conditionVal = condition())) {
@@ -9,7 +9,7 @@ async function waitFor(condition, maxTime = 5000) {
 	return conditionVal;
 }
 
-async function waitForElem(selector, timeout = 5000) {
+export async function waitForElem(selector, timeout = 5000) {
 	try {
 		return await waitFor(() => document.querySelector(selector), timeout)
 	} catch {
