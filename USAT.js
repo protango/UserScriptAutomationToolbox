@@ -9,7 +9,7 @@ async function waitFor(condition, maxTime = 5000) {
 	return conditionVal;
 }
 
-async function waitForElement(selector, timeout = 5000) {
+async function waitForElem(selector, timeout = 5000) {
 	try {
 		return await waitFor(() => document.querySelector(selector), timeout)
 	} catch {
